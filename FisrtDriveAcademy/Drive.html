@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>First Drive Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#D72B2B;
+  --red-dark:#a81f1f;
+  --red-light:#f04444;
+  --black:#0a0a0a;
+  --dark:#111;
+  --dark2:#1a1a1a;
+  --dark3:#222;
+  --border:#2e2e2e;
+  --text:#f0f0f0;
+  --muted:#888;
+  --white:#fff;
+}
+body{background:var(--black);color:var(--text);font-family:'Arial',sans-serif;line-height:1.6;}
+a{color:var(--red);text-decoration:none;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;background:rgba(8,8,8,0.97);border-bottom:2px solid var(--red);z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.logo{display:flex;align-items:center;gap:0.75rem;}
+.logo-icon{background:var(--red);color:#fff;font-weight:900;font-size:1.1rem;padding:6px 10px;letter-spacing:1px;}
+.logo-text{font-size:1.1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);}
+.logo-text span{color:var(--red);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:#ccc;font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--red);}
+.nav-cta{background:var(--red);color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;}
+.nav-cta:hover{background:var(--red-light);}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,rgba(0,0,0,0.92) 0%,rgba(180,20,20,0.15) 100%),url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80') center/cover no-repeat;display:flex;align-items:center;padding:2rem;padding-top:80px;}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;}
+.hero-tag{display:inline-block;background:var(--red);color:#fff;font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:6px 14px;margin-bottom:1.5rem;}
+.hero h1{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;line-height:1;text-transform:uppercase;color:#fff;margin-bottom:1rem;}
+.hero h1 span{color:var(--red);}
+.hero p{font-size:1.1rem;color:#bbb;max-width:500px;margin-bottom:2.5rem;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{display:inline-block;padding:0.85rem 2rem;font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-red:hover{background:var(--red-light);border-color:var(--red-light);}
+.btn-outline{background:transparent;color:#fff;border-color:#fff;}
+.btn-outline:hover{background:#fff;color:#000;}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);}
+.hero-stat .num{font-size:2.2rem;font-weight:900;color:var(--red);}
+.hero-stat .lbl{font-size:0.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+
+/* SECTIONS */
+section{padding:5rem 2rem;}
+.container{max-width:1100px;margin:0 auto;}
+.section-title{margin-bottom:3rem;}
+.section-title .tag{font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;}
+.section-title h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;}
+.section-title h2 span{color:var(--red);}
+.section-title p{color:var(--muted);margin-top:0.75rem;max-width:500px;}
+
+/* WHY US */
+#why{background:var(--dark2);}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
+.why-card{background:var(--dark3);border:1px solid var(--border);border-top:3px solid var(--red);padding:1.75rem;}
+.why-icon{font-size:2rem;margin-bottom:1rem;}
+.why-card h3{font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:0.5rem;}
+.why-card p{color:var(--muted);font-size:0.88rem;}
+
+/* PACKAGES */
+#packages{background:var(--black);}
+.packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+.pkg{background:var(--dark2);border:1px solid var(--border);padding:2rem;position:relative;transition:border-color 0.2s;}
+.pkg:hover{border-color:var(--red);}
+.pkg.featured{border:2px solid var(--red);}
+.pkg-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 14px;white-space:nowrap;}
+.pkg-name{font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:0.75rem;}
+.pkg-price{font-size:2.5rem;font-weight:900;color:#fff;line-height:1;}
+.pkg-price span{font-size:1rem;color:var(--muted);font-weight:400;}
+.pkg-desc{color:var(--muted);font-size:0.85rem;margin:1rem 0;}
+.pkg-features{list-style:none;margin-bottom:1.5rem;}
+.pkg-features li{font-size:0.85rem;color:#ccc;padding:0.4rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;}
+.pkg-features li::before{content:'✓';color:var(--red);font-weight:900;}
+.pkg-btn{display:block;text-align:center;padding:0.75rem;background:transparent;border:1px solid var(--red);color:var(--red);font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%;}
+.pkg-btn:hover,.pkg.featured .pkg-btn{background:var(--red);color:#fff;}
+
+/* SPECIALS */
+#specials{background:var(--dark2);}
+.specials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.special-card{background:var(--dark3);border:1px solid var(--border);overflow:hidden;transition:border-color 0.2s;}
+.special-card:hover{border-color:var(--red);}
+.special-img{width:100%;height:180px;object-fit:cover;display:block;}
+.special-img-placeholder{width:100%;height:180px;background:#1e1e1e;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem;}
+.special-body{padding:1.25rem;}
+.special-tag{display:inline-block;background:var(--red);color:#fff;font-size:0.65rem;font-weight:700;padding:3px 10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:0.75rem;}
+.special-body h3{color:#fff;font-size:1rem;font-weight:700;text-transform:uppercase;margin-bottom:0.4rem;}
+.special-body p{color:var(--muted);font-size:0.85rem;}
+.special-actions{padding:0 1.25rem 1rem;display:flex;justify-content:flex-end;}
+.btn-sm{padding:0.4rem 1rem;font-size:0.75rem;}
+.btn-del{background:transparent;border:1px solid #555;color:#888;cursor:pointer;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0.4rem 1rem;transition:all 0.2s;}
+.btn-del:hover{border-color:var(--red);color:var(--red);}
+
+/* EDIT PANEL */
+.edit-toggle{text-align:center;margin-bottom:2rem;}
+.edit-panel{background:var(--dark3);border:1px solid var(--red);padding:2rem;margin-bottom:2.5rem;display:none;}
+.edit-panel.open{display:block;}
+.edit-panel h3{color:var(--red);font-size:0.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;}
+.form-group label{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.form-group input,.form-group textarea{background:#0e0e0e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;font-size:0.9rem;font-family:inherit;width:100%;}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--red);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.upload-area{border:2px dashed var(--border);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color 0.2s;font-size:0.85rem;color:var(--muted);}
+.upload-area:hover{border-color:var(--red);color:var(--red);}
+.upload-area input{display:none;}
+.preview-thumb{width:100%;max-height:120px;object-fit:cover;margin-top:0.75rem;display:none;}
+.form-actions{display:flex;gap:1rem;margin-top:1rem;}
+
+/* INSTRUCTORS */
+#instructors{background:var(--black);}
+.instructors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
+.instructor-card{background:var(--dark2);border:1px solid var(--border);overflow:hidden;text-align:center;}
+.instructor-img{width:100%;height:200px;object-fit:cover;object-position:top;filter:grayscale(30%);}
+.instructor-body{padding:1.25rem;}
+.instructor-body h3{font-size:1rem;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:0.25rem;}
+.instructor-body .role{font-size:0.75rem;color:var(--red);letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:0.5rem;}
+.instructor-body p{font-size:0.82rem;color:var(--muted);}
+.instructor-exp{display:inline-block;background:var(--red);color:#fff;font-size:0.7rem;font-weight:700;padding:3px 10px;margin-top:0.75rem;letter-spacing:1px;}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--dark2);}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.testi-card{background:var(--dark3);border:1px solid var(--border);border-left:3px solid var(--red);padding:1.5rem;}
+.testi-stars{color:var(--red);font-size:1rem;margin-bottom:0.75rem;}
+.testi-card p{color:#ccc;font-size:0.9rem;font-style:italic;margin-bottom:1rem;}
+.testi-author{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+
+/* CONTACT */
+#contact{background:var(--black);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+.info-block{margin-bottom:1.5rem;}
+.info-block h4{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;}
+.info-block p{color:#bbb;font-size:0.9rem;}
+.hours-table{width:100%;}
+.hours-table td{padding:5px 0;color:#bbb;font-size:0.88rem;}
+.hours-table tr td:last-child{text-align:right;color:var(--red);font-weight:700;}
+.booking-form{background:var(--dark2);border:1px solid var(--border);padding:2rem;}
+.booking-form h3{font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem;}
+.booking-form input,.booking-form select,.booking-form textarea{display:block;width:100%;background:#0e0e0e;border:1px solid var(--border);color:var(--text);padding:0.65rem 0.8rem;font-size:0.9rem;font-family:inherit;margin-bottom:1rem;}
+.booking-form input:focus,.booking-form select:focus{outline:none;border-color:var(--red);}
+.booking-form select option{background:#0e0e0e;}
+.booking-form textarea{resize:vertical;height:80px;}
+.submit-btn{width:100%;background:var(--red);color:#fff;border:none;padding:0.85rem;font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.submit-btn:hover{background:var(--red-light);}
+
+/* FOOTER */
+footer{background:#050505;border-top:2px solid var(--red);padding:2rem;text-align:center;color:var(--muted);font-size:0.8rem;}
+footer strong{color:var(--red);}
+
+@media(max-width:700px){
+  .contact-grid,.form-row{grid-template-columns:1fr;}
+  .nav-links,.nav-cta{display:none;}
+  .hero-stats{gap:1.5rem;flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">FDA</div>
+    <div class="logo-text">First Drive <span>Academy</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#instructors">Instructors</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Durban's #1 Driving School</div>
+    <h1>Your First Drive<br/><span>Starts Here.</span></h1>
+    <p>Professional, patient, and passionate instructors helping you earn your licence with confidence.</p>
+    <div class="hero-btns">
+      <button class="btn btn-red" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Lesson</button>
+      <button class="btn btn-outline" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'})">View Packages</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">98%</div><div class="lbl">Pass Rate</div></div>
+      <div class="hero-stat"><div class="num">12+</div><div class="lbl">Years Experience</div></div>
+      <div class="hero-stat"><div class="num">3000+</div><div class="lbl">Students Passed</div></div>
+      <div class="hero-stat"><div class="num">Code 8 & 10</div><div class="lbl">Licensed</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">Why choose us</div>
+      <h2>Built for <span>First-Timers</span><br/>& Nervous Drivers</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <h3>98% Pass Rate</h3>
+        <p>Our structured approach and thorough prep mean our students walk out of that test with a licence.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🧑‍🏫</div>
+        <h3>Patient Instructors</h3>
+        <p>No shouting, no stress. Our instructors are calm, experienced, and trained to work at your pace.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📅</div>
+        <h3>Flexible Scheduling</h3>
+        <p>Early mornings, evenings, weekends — we work around your life, not the other way around.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🚗</div>
+        <h3>Modern Vehicles</h3>
+        <p>Learn in clean, well-maintained dual-control vehicles — manual and automatic available.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📋</div>
+        <h3>K53 Specialists</h3>
+        <p>Full K53 test prep — yard, alley docking, parallel parking, and road test ready.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📍</div>
+        <h3>We Come to You</h3>
+        <p>Pick-up and drop-off available across Durban and surrounding areas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">Pricing</div>
+      <h2>Choose Your <span>Package</span></h2>
+      <p>Transparent pricing, no hidden costs.</p>
+    </div>
+    <div class="packages-grid">
+      <div class="pkg">
+        <div class="pkg-name">Starter</div>
+        <div class="pkg-price">R650<span>/lesson</span></div>
+        <div class="pkg-desc">Perfect if you just need a few lessons to brush up.</div>
+        <ul class="pkg-features">
+          <li>1-hour lesson</li>
+          <li>Pick-up & drop-off</li>
+          <li>K53 guidance</li>
+          <li>Code 8 or 10</li>
+        </ul>
+        <button class="pkg-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      </div>
+      <div class="pkg featured">
+        <div class="pkg-badge">Most Popular</div>
+        <div class="pkg-name">Complete Licence</div>
+        <div class="pkg-price">R3,800<span>/package</span></div>
+        <div class="pkg-desc">Everything you need from zero to licence in one package.</div>
+        <ul class="pkg-features">
+          <li>8 x 1-hour lessons</li>
+          <li>Learner's test prep</li>
+          <li>K53 yard + road training</li>
+          <li>Pick-up & drop-off</li>
+          <li>Mock test included</li>
+          <li>Code 8 or 10</li>
+        </ul>
+        <button class="pkg-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      </div>
+      <div class="pkg">
+        <div class="pkg-name">Code 10</div>
+        <div class="pkg-price">R5,200<span>/package</span></div>
+        <div class="pkg-desc">Heavy motor vehicle licence for professional drivers.</div>
+        <ul class="pkg-features">
+          <li>10 x 1-hour lessons</li>
+          <li>Heavy vehicle training</li>
+          <li>Full K53 prep</li>
+          <li>Mock test included</li>
+          <li>PDP assistance</li>
+        </ul>
+        <button class="pkg-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      </div>
+      <div class="pkg">
+        <div class="pkg-name">Defensive Driving</div>
+        <div class="pkg-price">R1,200<span>/course</span></div>
+        <div class="pkg-desc">Already licenced? Level up your skills and stay safe.</div>
+        <ul class="pkg-features">
+          <li>2 x 1-hour sessions</li>
+          <li>Advanced road skills</li>
+          <li>Certificate issued</li>
+          <li>Insurance discount eligible</li>
+        </ul>
+        <button class="pkg-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section id="specials">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">Limited Offers</div>
+      <h2>Current <span>Specials</span></h2>
+      <p>Don't miss out — updated regularly.</p>
+    </div>
+    <div class="edit-toggle">
+      <button class="btn btn-outline btn-sm" onclick="toggleEdit()">⚙ Manage Specials</button>
+    </div>
+    <div class="edit-panel" id="editPanel">
+      <h3>Add a new special</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Special name</label>
+          <input type="text" id="newTitle" placeholder="e.g. Student Discount"/>
+        </div>
+        <div class="form-group">
+          <label>Tag / label</label>
+          <input type="text" id="newTag" placeholder="e.g. Limited Time"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="newDesc" placeholder="Describe the special — discount, terms, expiry..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Photo (optional)</label>
+        <label class="upload-area" id="uploadArea">
+          <input type="file" accept="image/*" id="imgUpload" onchange="previewImg(event)"/>
+          <div id="uploadPrompt">📷 Click to upload an image</div>
+          <img id="previewThumb" class="preview-thumb"/>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-red btn-sm" onclick="addSpecial()">Add Special</button>
+        <button class="btn btn-outline btn-sm" onclick="toggleEdit()">Cancel</button>
+      </div>
+    </div>
+    <div class="specials-grid" id="specialsGrid"></div>
+  </div>
+</section>
+
+<!-- INSTRUCTORS -->
+<section id="instructors">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">The Team</div>
+      <h2>Meet Your <span>Instructors</span></h2>
+    </div>
+    <div class="instructors-grid">
+      <div class="instructor-card">
+        <img class="instructor-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Instructor"/>
+        <div class="instructor-body">
+          <h3>Sipho Dlamini</h3>
+          <div class="role">Chief Instructor</div>
+          <p>Former traffic officer with 15 years on the road. Calm, methodical, and brilliant with nervous learners.</p>
+          <div class="instructor-exp">15 Years Experience</div>
+        </div>
+      </div>
+      <div class="instructor-card">
+        <img class="instructor-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" alt="Instructor"/>
+        <div class="instructor-body">
+          <h3>Naledi Khumalo</h3>
+          <div class="role">Code 8 Specialist</div>
+          <p>Our most requested instructor. Known for making even the most anxious students feel completely at ease.</p>
+          <div class="instructor-exp">9 Years Experience</div>
+        </div>
+      </div>
+      <div class="instructor-card">
+        <img class="instructor-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Instructor"/>
+        <div class="instructor-body">
+          <h3>Bradley Naidoo</h3>
+          <div class="role">Code 10 & Defensive</div>
+          <p>Heavy vehicle expert and defensive driving coach. Precision, patience, and professionalism every lesson.</p>
+          <div class="instructor-exp">11 Years Experience</div>
+        </div>
+      </div>
+      <div class="instructor-card">
+        <img class="instructor-img" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Instructor"/>
+        <div class="instructor-body">
+          <h3>Zanele Mthembu</h3>
+          <div class="role">Learner's Prep Specialist</div>
+          <p>Dedicated to getting first-timers ready. Zanele's learner's test pass rate is a remarkable 99%.</p>
+          <div class="instructor-exp">7 Years Experience</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">Reviews</div>
+      <h2>What Our <span>Students Say</span></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>"I failed twice at another school. First Drive had me passing first try. Naledi is an absolute legend — so patient and clear."</p>
+        <div class="testi-author">— Ayanda M., Berea</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>"Got my Code 10 in 6 weeks. Bradley knows his stuff and pushes you just enough. Worth every cent of the package."</p>
+        <div class="testi-author">— Thandolwethu N., Pinetown</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>"Sipho picked me up, dropped me off, and never once made me feel stupid for being nervous. Passed first time!"</p>
+        <div class="testi-author">— Priya R., Westville</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-title">
+      <div class="tag">Get in touch</div>
+      <h2>Book Your <span>First Lesson</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-block">
+          <h4>Address</h4>
+          <p>47 Umbilo Road, Umbilo<br/>Durban, KwaZulu-Natal, 4001</p>
+        </div>
+        <div class="info-block">
+          <h4>Phone & Email</h4>
+          <p>📞 031 555 0247<br/>📧 info@firstdriveacademy.co.za</p>
+        </div>
+        <div class="info-block">
+          <h4>Hours</h4>
+          <table class="hours-table">
+            <tr><td>Monday – Friday</td><td>07:00 – 18:00</td></tr>
+            <tr><td>Saturday</td><td>08:00 – 15:00</td></tr>
+            <tr><td>Sunday</td><td>By appointment</td></tr>
+          </table>
+        </div>
+        <div class="info-block">
+          <h4>Service Areas</h4>
+          <p>Durban CBD · Berea · Westville · Pinetown · Umhlanga · Chatsworth · Phoenix</p>
+        </div>
+      </div>
+      <div class="booking-form">
+        <h3>Book a Lesson</h3>
+        <input type="text" placeholder="Full Name"/>
+        <input type="tel" placeholder="Phone Number"/>
+        <input type="email" placeholder="Email Address"/>
+        <select>
+          <option value="" disabled selected>Select a Package</option>
+          <option>Starter — R650/lesson</option>
+          <option>Complete Licence — R3,800</option>
+          <option>Code 10 — R5,200</option>
+          <option>Defensive Driving — R1,200</option>
+        </select>
+        <input type="text" placeholder="Preferred days / times"/>
+        <textarea placeholder="Anything else we should know?"></textarea>
+        <button class="submit-btn" onclick="handleSubmit()">Send Enquiry</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>First Drive Academy</strong> · Durban, KwaZulu-Natal · 031 555 0247 · info@firstdriveacademy.co.za</p>
+  <p style="margin-top:0.5rem;">© 2026 First Drive Academy. All rights reserved.</p>
+</footer>
+
+<script>
+let specials=[
+  {id:1,title:'Student Discount',tag:'Valid June 2026',desc:'Show your student card and get 15% off any lesson package. Book before month end.',img:'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80'},
+  {id:2,title:'Refer a Friend',tag:'Ongoing',desc:'Refer a friend who books a package and you both get a free lesson. No limit on referrals!',img:'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80'},
+  {id:3,title:'Winter Special',tag:'June – August',desc:'Sign up for the Complete Licence package this winter and get 2 extra lessons absolutely free.',img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80'},
+];
+let nextId=4;
+let editImgData=null;
+
+function renderSpecials(){
+  const g=document.getElementById('specialsGrid');
+  g.innerHTML=specials.map(s=>`
+    <div class="special-card">
+      ${s.img?`<img class="special-img" src="${s.img}" alt="${s.title}"/>`:`<div class="special-img-placeholder">No image</div>`}
+      <div class="special-body">
+        <div class="special-tag">${s.tag}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+      </div>
+      <div class="special-actions">
+        <button class="btn-del" onclick="removeSpecial(${s.id})">Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleEdit(){
+  document.getElementById('editPanel').classList.toggle('open');
+}
+
+function previewImg(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    editImgData=ev.target.result;
+    const t=document.getElementById('previewThumb');
+    t.src=editImgData;
+    t.style.display='block';
+    document.getElementById('uploadPrompt').textContent='✓ Image ready';
+  };
+  r.readAsDataURL(file);
+}
+
+function addSpecial(){
+  const title=document.getElementById('newTitle').value.trim();
+  const tag=document.getElementById('newTag').value.trim();
+  const desc=document.getElementById('newDesc').value.trim();
+  if(!title||!desc){alert('Please enter a name and description.');return;}
+  specials.push({id:nextId++,title,tag:tag||'Special',desc,img:editImgData||null});
+  renderSpecials();
+  document.getElementById('newTitle').value='';
+  document.getElementById('newTag').value='';
+  document.getElementById('newDesc').value='';
+  document.getElementById('previewThumb').style.display='none';
+  document.getElementById('uploadPrompt').textContent='📷 Click to upload an image';
+  editImgData=null;
+  document.getElementById('editPanel').classList.remove('open');
+  document.getElementById('specials').scrollIntoView({behavior:'smooth'});
+}
+
+function removeSpecial(id){
+  if(!confirm('Remove this special?'))return;
+  specials=specials.filter(s=>s.id!==id);
+  renderSpecials();
+}
+
+function handleSubmit(){
+  alert('Thank you! We will be in touch within 24 hours to confirm your booking.');
+}
+
+renderSpecials();
+</script>
+</body>
+</html>

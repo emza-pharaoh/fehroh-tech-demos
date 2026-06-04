@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenLeaf Dispensary – Premium Cannabis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d6e44;
+    --green-light: #3d9960;
+    --green-pale: #d4f0e2;
+    --green-mid: #5ab87c;
+    --gold: #b8872a;
+    --gold-light: #e8b84b;
+    --gold-pale: #fdf3dc;
+    --text: #1a2e22;
+    --muted: #5a7a65;
+    --bg: #f2faf5;
+    --white: #ffffff;
+    --border: #c8e6d4;
+    --card-bg: rgba(255,255,255,0.75);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── BLOB CANVAS (sits behind everything) ── */
+  #blob-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* All content sits above canvas */
+  .age-banner, nav, section, footer { position: relative; z-index: 1; }
+
+  /* ── AGE BANNER ── */
+  .age-banner {
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%);
+    color: #fff;
+    text-align: center; padding: 0.55rem;
+    font-size: 0.8rem; letter-spacing: 0.04em;
+  }
+  .age-banner strong { color: var(--gold-light); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4rem;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(45,110,68,0.12);
+    box-shadow: 0 2px 24px rgba(45,110,68,0.06);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem; font-weight: 700;
+    color: var(--green);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--muted); font-weight: 400; font-size: 1.2rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none; font-size: 0.87rem; letter-spacing: 0.04em;
+    text-transform: uppercase; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: #fff;
+    padding: 0.55rem 1.4rem; border-radius: 50px;
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 4px 14px rgba(45,110,68,0.25);
+  }
+  .nav-cta:hover { background: var(--green-light); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 9rem 4rem 5rem;
+    background: transparent;
+  }
+  .hero-text { position: relative; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--green-pale);
+    color: var(--green); font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.4rem 1.1rem; margin-bottom: 1.8rem;
+    border-radius: 50px;
+    border: 1px solid rgba(45,110,68,0.2);
+    font-weight: 500;
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+    font-weight: 900; line-height: 1.1;
+    color: var(--text); margin-bottom: 1.4rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero h1 em { color: var(--green); font-style: normal; }
+  .hero-sub {
+    color: var(--muted); font-size: 1.05rem;
+    line-height: 1.75; max-width: 460px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--green); color: #fff;
+    padding: 0.85rem 2rem; border-radius: 50px;
+    font-weight: 500; font-size: 0.9rem; text-decoration: none;
+    letter-spacing: 0.03em; transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 6px 20px rgba(45,110,68,0.28);
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 2px solid var(--green); color: var(--green);
+    padding: 0.85rem 2rem; border-radius: 50px;
+    font-weight: 500; font-size: 0.9rem; text-decoration: none;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.6);
+  }
+  .btn-outline:hover { background: var(--green); color: #fff; transform: translateY(-2px); }
+
+  .hero-visual {
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+  .hero-card-stack { position: relative; width: 340px; height: 380px; }
+  .hero-float-card {
+    position: absolute;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 28px;
+    padding: 1.5rem;
+    box-shadow: 0 12px 40px rgba(45,110,68,0.12);
+  }
+  .hfc-main {
+    width: 240px; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; padding: 2rem;
+  }
+  .hfc-main .big-leaf { font-size: 5rem; display: block; margin-bottom: 0.5rem; }
+  .hfc-main h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+  .hfc-main p { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+  .hfc-tag1 {
+    top: 20px; right: 0;
+    padding: 0.7rem 1rem; font-size: 0.78rem;
+    display: flex; align-items: center; gap: 0.4rem;
+    border-radius: 18px;
+  }
+  .hfc-tag2 {
+    bottom: 30px; left: 0;
+    padding: 0.7rem 1rem; font-size: 0.78rem;
+    display: flex; align-items: center; gap: 0.4rem;
+    border-radius: 18px;
+  }
+  .tag-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-light); flex-shrink: 0; }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem; color: var(--green); font-weight: 700;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.1rem; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.73rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green-light); font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    font-weight: 700; line-height: 1.2; margin-bottom: 0.9rem;
+    color: var(--text);
+  }
+  .section-sub { color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 3rem; font-size: 0.97rem; }
+
+  /* Glass section backdrop */
+  .glass-section {
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(12px);
+  }
+  .tinted-section {
+    background: rgba(212,240,226,0.35);
+    backdrop-filter: blur(10px);
+  }
+
+  /* ── SPECIALS ── */
+  .specials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .special-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 24px;
+    padding: 1.8rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 24px rgba(45,110,68,0.08);
+  }
+  .special-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(45,110,68,0.15); }
+  .special-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--green), var(--green-mid));
+    border-radius: 24px 24px 0 0;
+  }
+  .special-badge {
+    display: inline-block; background: var(--green-pale);
+    color: var(--green); font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.3rem 0.8rem;
+    border-radius: 50px; margin-bottom: 1rem;
+    font-weight: 600; border: 1px solid rgba(45,110,68,0.15);
+  }
+  .special-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--text); font-size: 1.2rem; margin-bottom: 0.5rem;
+  }
+  .special-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.6; margin-bottom: 1.2rem; }
+  .special-price { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+  .price-now { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--green); font-weight: 700; }
+  .price-was { font-size: 0.9rem; color: #aab8a4; text-decoration: line-through; }
+  .price-save {
+    font-size: 0.73rem; color: #2e7d32; font-weight: 600;
+    background: #e8f5e9; padding: 0.2rem 0.55rem; border-radius: 50px;
+  }
+
+  /* ── MENU ── */
+  .menu-tabs {
+    display: flex; gap: 0.4rem; margin-bottom: 2.5rem; flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 0.6rem 1.3rem; background: rgba(255,255,255,0.6); border: 1px solid var(--border);
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500; color: var(--muted);
+    border-radius: 50px;
+    transition: all 0.2s;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    backdrop-filter: blur(8px);
+  }
+  .tab-btn.active {
+    background: var(--green); color: #fff; border-color: var(--green);
+    box-shadow: 0 4px 14px rgba(45,110,68,0.25);
+  }
+  .tab-btn:hover:not(.active) { background: var(--green-pale); color: var(--green); border-color: var(--green); }
+  .menu-panel { display: none; }
+  .menu-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+  .product-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 22px;
+    padding: 1.4rem;
+    transition: transform 0.22s, box-shadow 0.22s;
+    position: relative;
+    box-shadow: 0 2px 16px rgba(45,110,68,0.06);
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(45,110,68,0.13); }
+  .product-emoji { font-size: 2rem; margin-bottom: 0.7rem; display: block; }
+  .product-type {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--muted); margin-bottom: 0.25rem; font-weight: 500;
+  }
+  .product-card h4 { font-family: 'Playfair Display', serif; font-size: 1.02rem; margin-bottom: 0.4rem; color: var(--text); }
+  .product-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; margin-bottom: 1rem; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; }
+  .product-price { font-weight: 600; font-size: 1rem; color: var(--green); }
+  .product-thc {
+    font-size: 0.7rem; background: var(--green-pale); color: var(--green);
+    padding: 0.22rem 0.6rem; border-radius: 50px; font-weight: 600;
+    border: 1px solid rgba(45,110,68,0.15);
+  }
+  .product-tag-new {
+    position: absolute; top: 0.9rem; right: 0.9rem;
+    background: var(--gold-light); color: #5a3a00;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em;
+    padding: 0.22rem 0.6rem; border-radius: 50px; text-transform: uppercase;
+  }
+
+  /* ── LOCATION ── */
+  .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .info-block { margin-bottom: 2rem; }
+  .info-block h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--green); font-size: 1rem; margin-bottom: 0.9rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .info-text { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+  .hours-table { width: 100%; border-collapse: collapse; }
+  .hours-table td { padding: 0.45rem 0; font-size: 0.88rem; color: var(--muted); }
+  .hours-table td:first-child { color: var(--text); font-weight: 500; }
+  .hours-table td:last-child { text-align: right; color: var(--green); font-weight: 500; }
+  .map-placeholder {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 28px;
+    padding: 3rem; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 300px; gap: 0.8rem;
+    box-shadow: 0 4px 24px rgba(45,110,68,0.08);
+  }
+  .map-pin { font-size: 3rem; }
+  .map-placeholder p { color: var(--muted); font-size: 0.87rem; line-height: 1.5; }
+  .map-placeholder strong { color: var(--green); font-size: 1.05rem; font-weight: 600; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 22px; padding: 1.5rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 16px rgba(45,110,68,0.07);
+  }
+  .contact-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(45,110,68,0.12); }
+  .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-icon-wrap {
+    width: 46px; height: 46px; border-radius: 16px;
+    background: var(--green-pale); display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0; font-size: 1.25rem;
+    border: 1px solid rgba(45,110,68,0.15);
+  }
+  .contact-card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.2rem; font-weight: 500; }
+  .contact-card-value { font-size: 0.97rem; font-weight: 600; color: var(--text); }
+  .contact-card-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+  .contact-form input, .contact-form textarea, .contact-form select {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 16px;
+    padding: 0.85rem 1.1rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; background: rgba(255,255,255,0.7); color: var(--text);
+    margin-bottom: 1rem; transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; backdrop-filter: blur(8px);
+  }
+  .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+    outline: none; border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(45,110,68,0.1);
+  }
+  .contact-form textarea { height: 120px; resize: vertical; }
+  .contact-form button {
+    background: var(--green); color: #fff; border: none;
+    padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    border-radius: 50px; width: 100%;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 6px 20px rgba(45,110,68,0.28);
+  }
+  .contact-form button:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(26,46,34,0.92);
+    backdrop-filter: blur(20px);
+    color: rgba(255,255,255,0.5);
+    padding: 2.2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(90,184,124,0.2);
+    flex-wrap: wrap; gap: 1rem;
+    position: relative; z-index: 1;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--green-mid); font-size: 1.2rem; font-weight: 700;
+  }
+  .footer-logo span { color: rgba(255,255,255,0.45); font-weight: 400; }
+  footer p { font-size: 0.8rem; }
+  .built-by {
+    font-size: 0.78rem;
+    border: 1px solid rgba(90,184,124,0.3);
+    padding: 0.4rem 0.9rem; border-radius: 50px;
+    color: var(--green-mid);
+  }
+  .built-by a { color: var(--green-mid); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .location-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Animated blob canvas -->
+<canvas id="blob-canvas"></canvas>
+
+<div class="age-banner">
+  <strong>18+</strong> — This website is intended for adults of legal age. Please consume responsibly.
+</div>
+
+<nav>
+  <div class="nav-logo">🌿 GreenLeaf <span>Dispensary</span></div>
+  <ul class="nav-links">
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Enquire</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-badge">🌿 Premium Cannabis Dispensary</div>
+    <h1>Curated for the <em>Discerning</em> Consumer</h1>
+    <p class="hero-sub">Locally sourced, lab-tested cannabis products. From calming indicas to energising sativas — we have something for every lifestyle and need.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Browse Menu</a>
+      <a href="#specials" class="btn-outline">This Week's Specials</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div>
+        <div class="stat-num">Lab</div>
+        <div class="stat-label">Tested</div>
+      </div>
+      <div>
+        <div class="stat-num">Daily</div>
+        <div class="stat-label">Specials</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hero-float-card hfc-main">
+        <span class="big-leaf">🌿</span>
+        <h3>GreenLeaf</h3>
+        <p>Premium Dispensary</p>
+      </div>
+      <div class="hero-float-card hfc-tag1">
+        <span class="tag-dot"></span>
+        <span style="color:var(--text);font-weight:500;">Lab Tested ✓</span>
+      </div>
+      <div class="hero-float-card hfc-tag2">
+        <span class="tag-dot" style="background:#e8b84b;"></span>
+        <span style="color:var(--text);font-weight:500;">Daily Specials 🔥</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specials -->
+<section class="tinted-section" id="specials">
+  <div class="section-label">This Week</div>
+  <h2 class="section-title">Current Specials</h2>
+  <p class="section-sub">Fresh deals every week. Stock is limited — visit us in-store or call ahead to reserve.</p>
+  <div class="specials-grid">
+    <div class="special-card">
+      <div class="special-badge">🔥 Flash Deal</div>
+      <h3>OG Kush (3.5g)</h3>
+      <p>Classic indica-dominant hybrid. Earthy pine with hints of citrus. Perfect for evening relaxation.</p>
+      <div class="special-price">
+        <span class="price-now">R180</span>
+        <span class="price-was">R240</span>
+        <span class="price-save">Save 25%</span>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-badge">⭐ Staff Pick</div>
+      <h3>Lemon Haze Vape Cartridge</h3>
+      <p>Bright sativa energy with a zesty lemon terpene profile. Discreet and convenient 1ml cartridge.</p>
+      <div class="special-price">
+        <span class="price-now">R320</span>
+        <span class="price-was">R400</span>
+        <span class="price-save">Save 20%</span>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-badge">🌙 Bundle</div>
+      <h3>Sleep Well Bundle</h3>
+      <p>CBD tincture + indica pre-rolls (x3). Everything you need for a deep, restorative night's sleep.</p>
+      <div class="special-price">
+        <span class="price-now">R450</span>
+        <span class="price-was">R620</span>
+        <span class="price-save">Save 27%</span>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-badge">🆕 New Arrival</div>
+      <h3>CBD Muscle Balm 100ml</h3>
+      <p>500mg broad-spectrum CBD infused balm. Ideal post-workout or for chronic pain management.</p>
+      <div class="special-price">
+        <span class="price-now">R280</span>
+        <span class="price-was">R340</span>
+        <span class="price-save">Save R60</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section class="glass-section" id="menu">
+  <div class="section-label">Full Menu</div>
+  <h2 class="section-title">Our Products</h2>
+  <p class="section-sub">All products are independently tested for potency and purity. Prices may vary. Ask in-store for current stock.</p>
+
+  <div class="menu-tabs">
+    <button class="tab-btn active" onclick="showTab('flower',this)">🌸 Flower</button>
+    <button class="tab-btn" onclick="showTab('vapes',this)">💨 Vapes</button>
+    <button class="tab-btn" onclick="showTab('edibles',this)">🍫 Edibles</button>
+    <button class="tab-btn" onclick="showTab('cbd',this)">💧 CBD</button>
+    <button class="tab-btn" onclick="showTab('accessories',this)">🧲 Accessories</button>
+  </div>
+
+  <div class="menu-panel active" id="tab-flower">
+    <div class="product-card">
+      <span class="product-emoji">🌸</span>
+      <div class="product-type">Indica</div>
+      <h4>Granddaddy Purple</h4>
+      <p class="product-desc">Deep relaxation, sweet berry aroma. Great for stress and insomnia.</p>
+      <div class="product-footer"><span class="product-price">R160/3.5g</span><span class="product-thc">THC 22%</span></div>
+    </div>
+    <div class="product-card">
+      <div class="product-tag-new">New</div>
+      <span class="product-emoji">🍋</span>
+      <div class="product-type">Sativa</div>
+      <h4>Lemon Skunk</h4>
+      <p class="product-desc">Uplifting citrus buzz. Daytime focus and creativity enhancer.</p>
+      <div class="product-footer"><span class="product-price">R150/3.5g</span><span class="product-thc">THC 18%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌿</span>
+      <div class="product-type">Hybrid</div>
+      <h4>Blue Dream</h4>
+      <p class="product-desc">Balanced hybrid, blueberry notes. The crowd favourite.</p>
+      <div class="product-footer"><span class="product-price">R170/3.5g</span><span class="product-thc">THC 21%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🏔️</span>
+      <div class="product-type">Indica</div>
+      <h4>Northern Lights</h4>
+      <p class="product-desc">Classic full-body high. Earthy pine with sweet undertones.</p>
+      <div class="product-footer"><span class="product-price">R155/3.5g</span><span class="product-thc">THC 20%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🔥</span>
+      <div class="product-type">Sativa</div>
+      <h4>Durban Poison</h4>
+      <p class="product-desc">SA's proudest landrace. Energetic, spicy, and mentally clear.</p>
+      <div class="product-footer"><span class="product-price">R140/3.5g</span><span class="product-thc">THC 16%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌙</span>
+      <div class="product-type">Hybrid</div>
+      <h4>Gelato #41</h4>
+      <p class="product-desc">Premium dessert strain. Sweet, creamy, and potent.</p>
+      <div class="product-footer"><span class="product-price">R200/3.5g</span><span class="product-thc">THC 26%</span></div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-vapes">
+    <div class="product-card">
+      <span class="product-emoji">💨</span>
+      <div class="product-type">Sativa Cartridge</div>
+      <h4>Lemon Haze Cart</h4>
+      <p class="product-desc">1ml 510-thread cartridge. Bright citrus, energetic high.</p>
+      <div class="product-footer"><span class="product-price">R400/1ml</span><span class="product-thc">THC 85%</span></div>
+    </div>
+    <div class="product-card">
+      <div class="product-tag-new">New</div>
+      <span class="product-emoji">🫧</span>
+      <div class="product-type">Disposable</div>
+      <h4>Watermelon Zkittlez</h4>
+      <p class="product-desc">0.5ml all-in-one disposable. Fruity and smooth, no setup needed.</p>
+      <div class="product-footer"><span class="product-price">R250/0.5ml</span><span class="product-thc">THC 78%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌬️</span>
+      <div class="product-type">Indica Cartridge</div>
+      <h4>Blueberry Kush Cart</h4>
+      <p class="product-desc">Deep relaxation on the go. Rich berry flavour profile.</p>
+      <div class="product-footer"><span class="product-price">R380/1ml</span><span class="product-thc">THC 82%</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">⚡</span>
+      <div class="product-type">Battery Kit</div>
+      <h4>510 Vape Battery</h4>
+      <p class="product-desc">Variable voltage 510-thread battery. USB-C charged. Fits all our carts.</p>
+      <div class="product-footer"><span class="product-price">R180</span><span class="product-thc">Universal</span></div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-edibles">
+    <div class="product-card">
+      <span class="product-emoji">🍫</span>
+      <div class="product-type">Chocolate</div>
+      <h4>Dark Choc 100mg</h4>
+      <p class="product-desc">10 x 10mg squares. Vegan, 70% cacao. Slow onset, long-lasting.</p>
+      <div class="product-footer"><span class="product-price">R220</span><span class="product-thc">THC 100mg</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🍬</span>
+      <div class="product-type">Gummies</div>
+      <h4>Tropical Gummies</h4>
+      <p class="product-desc">Pack of 10 gummies, 10mg each. Mango, guava, and passion fruit.</p>
+      <div class="product-footer"><span class="product-price">R180</span><span class="product-thc">THC 100mg</span></div>
+    </div>
+    <div class="product-card">
+      <div class="product-tag-new">New</div>
+      <span class="product-emoji">🫖</span>
+      <div class="product-type">Beverage</div>
+      <h4>Cannabis Honey (50g)</h4>
+      <p class="product-desc">Raw honey infused with RSO. 5mg per teaspoon. Perfect in tea or coffee.</p>
+      <div class="product-footer"><span class="product-price">R160</span><span class="product-thc">~40mg total</span></div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-cbd">
+    <div class="product-card">
+      <span class="product-emoji">💧</span>
+      <div class="product-type">Tincture</div>
+      <h4>CBD Oil 1000mg</h4>
+      <p class="product-desc">Full-spectrum 30ml tincture. For daily wellness, anxiety, and sleep support.</p>
+      <div class="product-footer"><span class="product-price">R380</span><span class="product-thc">CBD 1000mg</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🧴</span>
+      <div class="product-type">Topical</div>
+      <h4>CBD Muscle Balm</h4>
+      <p class="product-desc">500mg broad-spectrum. Anti-inflammatory. Ideal for athletes and pain relief.</p>
+      <div class="product-footer"><span class="product-price">R280</span><span class="product-thc">CBD 500mg</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">💊</span>
+      <div class="product-type">Capsules</div>
+      <h4>CBD Softgels 25mg</h4>
+      <p class="product-desc">30 capsules x 25mg isolate. Precise dosing, no taste, travel-friendly.</p>
+      <div class="product-footer"><span class="product-price">R320</span><span class="product-thc">CBD 750mg</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌿</span>
+      <div class="product-type">Hemp Flower</div>
+      <h4>CBD Hemp Flower</h4>
+      <p class="product-desc">High-CBD, low-THC hemp. Smokeable relaxation without the psychoactive effect.</p>
+      <div class="product-footer"><span class="product-price">R100/3.5g</span><span class="product-thc">CBD 15%</span></div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-accessories">
+    <div class="product-card">
+      <span class="product-emoji">🪨</span>
+      <div class="product-type">Glassware</div>
+      <h4>Borosilicate Bong</h4>
+      <p class="product-desc">9-inch classic straight tube. Ice catcher included, easy to clean.</p>
+      <div class="product-footer"><span class="product-price">R350</span><span class="product-thc">In-store</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌀</span>
+      <div class="product-type">Papers</div>
+      <h4>King-Size Rolling Papers</h4>
+      <p class="product-desc">Organic hemp papers, 50 leaves. Ultra-thin and slow-burning.</p>
+      <div class="product-footer"><span class="product-price">R35</span><span class="product-thc">In-store</span></div>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🧲</span>
+      <div class="product-type">Grinder</div>
+      <h4>Aluminium 4-Piece Grinder</h4>
+      <p class="product-desc">63mm magnetic grinder with kief catcher. Sharp diamond-cut teeth.</p>
+      <div class="product-footer"><span class="product-price">R220</span><span class="product-thc">In-store</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Location -->
+<section class="tinted-section" id="location">
+  <div class="section-label">Find Us</div>
+  <h2 class="section-title">Location & Hours</h2>
+  <p class="section-sub">Walk-ins welcome. We're conveniently located with street parking available.</p>
+  <div class="location-grid">
+    <div>
+      <div class="info-block">
+        <h3>📍 Address</h3>
+        <div class="info-text">12 Berea Road, Morningside<br>Durban, KwaZulu-Natal, 4001<br>South Africa</div>
+      </div>
+      <div class="info-block">
+        <h3>🕐 Trading Hours</h3>
+        <table class="hours-table">
+          <tr><td>Monday – Friday</td><td>09:00 – 19:00</td></tr>
+          <tr><td>Saturday</td><td>09:00 – 17:00</td></tr>
+          <tr><td>Sunday</td><td>10:00 – 15:00</td></tr>
+          <tr><td>Public Holidays</td><td>10:00 – 14:00</td></tr>
+        </table>
+      </div>
+      <div class="info-block">
+        <h3>📞 Contact</h3>
+        <div class="info-text">Call or WhatsApp: <strong style="color:var(--green);font-weight:700;">069 116 3533</strong></div>
+        <div class="info-text" style="margin-top:0.4rem;">info@greenleafdbn.co.za</div>
+      </div>
+    </div>
+    <div>
+      <div class="map-placeholder">
+        <div class="map-pin">📍</div>
+        <strong>GreenLeaf Dispensary</strong>
+        <p>12 Berea Road, Morningside<br>Durban, 4001</p>
+        <a href="https://maps.google.com/?q=Berea+Road+Morningside+Durban" target="_blank" class="btn-primary" style="margin-top:1rem; font-size:0.82rem;">Open in Google Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="glass-section" id="contact">
+  <div class="section-label">Get in Touch</div>
+  <h2 class="section-title">Contact Us</h2>
+  <p class="section-sub">Have a question about a product, want to reserve stock, or just want to say hi? We'd love to hear from you.</p>
+  <div class="contact-grid">
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-icon-wrap">📱</div>
+        <div>
+          <div class="contact-card-label">Phone / WhatsApp</div>
+          <div class="contact-card-value">069 116 3533</div>
+          <div class="contact-card-sub">Available during trading hours</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon-wrap">📧</div>
+        <div>
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value">info@greenleafdbn.co.za</div>
+          <div class="contact-card-sub">We reply within 24 hours</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon-wrap">📍</div>
+        <div>
+          <div class="contact-card-label">Visit Us</div>
+          <div class="contact-card-value">12 Berea Road, Morningside</div>
+          <div class="contact-card-sub">Durban, KwaZulu-Natal</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <div class="contact-form">
+        <input type="text" placeholder="Your name">
+        <input type="tel" placeholder="Phone / WhatsApp number">
+        <select>
+          <option value="">What can we help you with?</option>
+          <option>Product inquiry</option>
+          <option>Stock reservation</option>
+          <option>Order / delivery</option>
+          <option>Something else</option>
+        </select>
+        <textarea placeholder="Your message..."></textarea>
+        <button onclick="alert('Thanks! We\'ll be in touch soon.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">🌿 GreenLeaf <span>Dispensary</span></div>
+  <p>© 2025 GreenLeaf Dispensary. For adults 18+ only. Consume responsibly.</p>
+  <div class="built-by">
+    Website by <a href="tel:0691163533">FehRoh Tech (Pty) Ltd</a> · 069 116 3533
+  </div>
+</footer>
+
+<script>
+// ── TAB SWITCHING ──
+function showTab(name, btn) {
+  document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ANIMATED BLOB BACKGROUND ──
+(function() {
+  const canvas = document.getElementById('blob-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+  }
+  window.addEventListener('resize', () => { resize(); });
+  resize();
+
+  // Blob definitions — position as fraction of page, gentle drift
+  const blobs = [
+    { xf:0.15, yf:0.08, r:320, color:'rgba(90,184,124,0.18)', dx:0.12, dy:0.07, t:0 },
+    { xf:0.82, yf:0.12, r:260, color:'rgba(201,168,76,0.13)', dx:-0.09, dy:0.11, t:1.5 },
+    { xf:0.55, yf:0.28, r:280, color:'rgba(45,110,68,0.12)',  dx:0.07, dy:-0.08, t:2.8 },
+    { xf:0.10, yf:0.45, r:240, color:'rgba(132,220,170,0.15)',dx:-0.1,  dy:0.06,  t:0.7 },
+    { xf:0.90, yf:0.50, r:300, color:'rgba(90,184,124,0.14)', dx:0.06, dy:-0.12, t:3.2 },
+    { xf:0.40, yf:0.62, r:220, color:'rgba(201,168,76,0.10)', dx:-0.08, dy:0.09, t:1.1 },
+    { xf:0.70, yf:0.75, r:270, color:'rgba(45,110,68,0.11)',  dx:0.11, dy:0.07,  t:4.0 },
+    { xf:0.20, yf:0.85, r:250, color:'rgba(132,220,170,0.13)',dx:-0.07, dy:-0.1, t:2.2 },
+    { xf:0.85, yf:0.90, r:200, color:'rgba(201,168,76,0.12)', dx:0.09, dy:0.05,  t:3.7 },
+  ];
+
+  let time = 0;
+
+  function drawBlob(blob) {
+    const cx = blob.xf * W + Math.sin(time * blob.dx + blob.t) * 80;
+    const cy = blob.yf * H + Math.cos(time * blob.dy + blob.t) * 80;
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, blob.r);
+    grad.addColorStop(0, blob.color);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, blob.r, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+  }
+
+  function animate() {
+    // Resize canvas height to match document (page grows as content loads)
+    const docH = Math.max(document.body.scrollHeight, window.innerHeight);
+    if (canvas.height !== docH) { canvas.height = docH; H = docH; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Very subtle base tint
+    ctx.fillStyle = 'rgba(242,250,245,0.6)';
+    ctx.fillRect(0, 0, W, H);
+
+    blobs.forEach(b => drawBlob(b));
+
+    time += 0.004;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>
