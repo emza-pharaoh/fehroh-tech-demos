@@ -1,0 +1,335 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  .site{font-family:'Montserrat',sans-serif;background:#f5f1ea;color:#1a1a18;}
+
+  /* NAV */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;background:rgba(245,241,234,0.95);border-bottom:0.5px solid rgba(26,26,24,0.1);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);}
+  .nav-logo{display:flex;align-items:center;gap:12px;}
+  .nav-logo svg{width:34px;height:34px;}
+  .brand-name{font-weight:600;font-size:12px;letter-spacing:0.16em;color:#1a1a18;}
+  .brand-sub{font-size:8.5px;letter-spacing:0.2em;color:#b08a40;font-weight:300;text-transform:uppercase;margin-top:2px;}
+  .nav-links{display:flex;gap:2.5rem;}
+  .nav-links a{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,26,24,0.5);text-decoration:none;cursor:pointer;transition:color 0.2s;}
+  .nav-links a:hover{color:#b08a40;}
+  .nav-cta{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 22px;border:0.5px solid #b08a40;color:#b08a40;background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;transition:all 0.25s;}
+  .nav-cta:hover{background:#b08a40;color:#fff;}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;overflow:hidden;}
+  .hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 3rem 5rem 2.5rem;background:#f5f1ea;position:relative;}
+  .hero-left::after{content:'';position:absolute;right:0;top:0;bottom:0;width:0.5px;background:rgba(26,26,24,0.1);}
+  .eyebrow{font-size:9px;letter-spacing:0.32em;text-transform:uppercase;color:#b08a40;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:'';width:28px;height:0.5px;background:#b08a40;}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:300;line-height:1.08;color:#1a1a18;margin-bottom:1.25rem;}
+  .hero h1 em{font-style:italic;color:#b08a40;}
+  .hero-desc{font-size:12.5px;line-height:1.95;color:rgba(26,26,24,0.55);font-weight:300;max-width:400px;margin-bottom:2.5rem;}
+  .btn-gold{padding:14px 32px;background:#b08a40;color:#fff;font-family:'Montserrat',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.25s;}
+  .btn-gold:hover{background:#9a7835;}
+  .btn-outline{padding:14px 32px;background:transparent;color:#1a1a18;font-family:'Montserrat',sans-serif;font-size:9.5px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;border:0.5px solid rgba(26,26,24,0.25);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:8px;}
+  .btn-outline:hover{border-color:#1a1a18;}
+  .hero-btns{display:flex;gap:1rem;align-items:center;}
+  .hero-stamp{margin-top:3rem;padding-top:2rem;border-top:0.5px solid rgba(26,26,24,0.1);display:flex;gap:2.5rem;}
+  .stamp-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:#1a1a18;line-height:1;}
+  .stamp-lbl{font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,24,0.4);margin-top:4px;}
+
+  /* HERO IMAGE PANEL */
+  .hero-right{position:relative;overflow:hidden;}
+  .hero-img-main{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92) contrast(1.04) saturate(0.88);}
+  .hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(245,241,234,0.18) 0%,transparent 40%);}
+  .hero-badge{position:absolute;bottom:2rem;left:2rem;background:rgba(245,241,234,0.95);padding:1rem 1.4rem;border-left:2px solid #b08a40;}
+  .badge-text{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,24,0.5);}
+  .badge-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:#1a1a18;margin-top:2px;}
+
+  /* TICKER */
+  .ticker{border-top:0.5px solid rgba(26,26,24,0.1);border-bottom:0.5px solid rgba(26,26,24,0.1);padding:0.85rem 0;overflow:hidden;background:#efe9df;}
+  .ticker-track{display:flex;gap:3rem;animation:ticker 30s linear infinite;white-space:nowrap;}
+  .ticker-item{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,26,24,0.35);display:flex;align-items:center;gap:10px;}
+  .ticker-dot{width:3px;height:3px;background:#b08a40;border-radius:50%;flex-shrink:0;}
+  @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SECTION COMMONS */
+  .section{padding:5.5rem 2.5rem;}
+  .sec-label{font-size:8.5px;letter-spacing:0.28em;text-transform:uppercase;color:#b08a40;margin-bottom:2.5rem;display:flex;align-items:center;gap:10px;}
+  .sec-label::before{content:'';width:24px;height:0.5px;background:#b08a40;}
+  .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:300;color:#1a1a18;line-height:1.15;}
+  .sec-title em{font-style:italic;color:#b08a40;}
+
+  /* ABOUT SPLIT */
+  .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:0;background:#efe9df;overflow:hidden;}
+  .about-photo{position:relative;overflow:hidden;min-height:520px;}
+  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.9) saturate(0.85);}
+  .about-photo-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(245,241,234,0.92);padding:1.2rem 1.5rem;border-top:0.5px solid rgba(26,26,24,0.08);}
+  .about-photo-caption p{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,24,0.4);}
+  .about-copy{padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;}
+  .about-body{font-size:12.5px;line-height:2;color:rgba(26,26,24,0.6);font-weight:300;margin-bottom:1.5rem;}
+  .pillars{margin-top:1rem;}
+  .pillar{padding:1rem 0;border-bottom:0.5px solid rgba(26,26,24,0.1);display:flex;justify-content:space-between;align-items:center;}
+  .pillar-name{font-size:11.5px;font-weight:400;color:rgba(26,26,24,0.75);letter-spacing:0.06em;}
+  .pillar-arr{color:#b08a40;font-size:13px;}
+
+  /* SERVICES */
+  .services-bg{background:#1a1a18;}
+  .services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;}
+  .services-title-light{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:300;color:#f5f1ea;line-height:1.15;}
+  .services-title-light em{font-style:italic;color:#c4a86a;}
+  .sec-label-light{font-size:8.5px;letter-spacing:0.28em;text-transform:uppercase;color:#c4a86a;margin-bottom:2.5rem;display:flex;align-items:center;gap:10px;}
+  .sec-label-light::before{content:'';width:24px;height:0.5px;background:#c4a86a;}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);}
+  .svc-card{background:#1a1a18;padding:2.2rem 1.8rem;display:flex;flex-direction:column;gap:.85rem;transition:background 0.3s;cursor:pointer;}
+  .svc-card:hover{background:#222220;}
+  .svc-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:rgba(196,168,106,0.25);line-height:1;}
+  .svc-name{font-size:12px;font-weight:500;letter-spacing:0.08em;color:#e8e2d5;line-height:1.4;}
+  .svc-desc{font-size:11.5px;line-height:1.85;color:rgba(232,226,213,0.42);font-weight:300;flex:1;}
+  .svc-link{font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:#c4a86a;}
+
+  /* CONFERENCE SECTION */
+  .conf-section{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+  .conf-photo{position:relative;min-height:460px;overflow:hidden;}
+  .conf-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.88) saturate(0.82);}
+  .conf-copy{background:#f5f1ea;padding:4.5rem 3rem;display:flex;flex-direction:column;justify-content:center;}
+  .process-steps{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
+  .pstep{display:flex;gap:1.5rem;padding:1.2rem 0;border-bottom:0.5px solid rgba(26,26,24,0.08);}
+  .pstep-num{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(176,138,64,0.35);line-height:1;flex-shrink:0;width:28px;}
+  .pstep-content{}
+  .pstep-name{font-size:11.5px;font-weight:500;letter-spacing:0.08em;color:#1a1a18;margin-bottom:4px;}
+  .pstep-desc{font-size:11px;line-height:1.75;color:rgba(26,26,24,0.5);font-weight:300;}
+
+  /* IMPACT STRIP */
+  .impact-strip{background:#b08a40;padding:4rem 2.5rem;}
+  .impact-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.15);}
+  .impact-card{background:#b08a40;padding:2.5rem 2rem;text-align:center;}
+  .impact-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#fff;line-height:1;}
+  .impact-lbl{font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-top:8px;}
+
+  /* TESTIMONIAL */
+  .testi-section{background:#efe9df;padding:6rem 2.5rem;}
+  .testi-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .testi-photo{position:relative;overflow:hidden;border-radius:0;}
+  .testi-photo img{width:100%;height:340px;object-fit:cover;display:block;filter:brightness(0.88) saturate(0.8);}
+  .quote-mark{font-family:'Cormorant Garamond',serif;font-size:5rem;color:rgba(176,138,64,0.25);line-height:0.7;display:block;margin-bottom:1rem;}
+  .testi-text{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;font-style:italic;line-height:1.65;color:#1a1a18;margin-bottom:1.5rem;}
+  .testi-attr{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#b08a40;}
+
+  /* CTA */
+  .cta-section{padding:7rem 2.5rem;text-align:center;background:#f5f1ea;}
+  .cta-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:300;color:#1a1a18;line-height:1.15;margin-bottom:1.2rem;}
+  .cta-section p{font-size:12.5px;color:rgba(26,26,24,0.5);font-weight:300;margin-bottom:2.5rem;}
+  .cta-btns{display:flex;gap:1rem;justify-content:center;}
+
+  /* FOOTER */
+  .footer{padding:2rem 2.5rem;border-top:0.5px solid rgba(26,26,24,0.1);display:flex;justify-content:space-between;align-items:center;background:#f5f1ea;}
+  .footer-copy{font-size:9.5px;letter-spacing:0.12em;color:rgba(26,26,24,0.3);}
+  .footer-links{display:flex;gap:2rem;}
+  .footer-links a{font-size:9.5px;letter-spacing:0.12em;color:rgba(26,26,24,0.35);text-decoration:none;cursor:pointer;}
+  .footer-links a:hover{color:#b08a40;}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.7s ease,transform 0.7s ease;}
+  .reveal.vis{opacity:1;transform:translateY(0);}
+</style>
+
+<div class="site">
+
+<nav class="nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(20,20)">
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(0)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(30)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(60)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(90)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(120)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="2.2" stroke-linecap="round" transform="rotate(150)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(180)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(210)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(240)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(270)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(300)"/>
+        <line x1="0" y1="-14" x2="0" y2="-8" stroke="#b08a40" stroke-width="1.3" stroke-linecap="round" transform="rotate(330)"/>
+      </g>
+    </svg>
+    <div>
+      <div class="brand-name">Shengele &amp; Company</div>
+      <div class="brand-sub">Specialists in Local Economic Development</div>
+    </div>
+  </div>
+  <nav class="nav-links">
+    <a onclick="scrollS('about')">About</a>
+    <a onclick="scrollS('services')">Services</a>
+    <a onclick="scrollS('impact')">Impact</a>
+    <a onclick="scrollS('contact')">Contact</a>
+  </nav>
+  <button class="nav-cta" onclick="scrollS('contact')">Engage Us</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left reveal">
+    <div class="eyebrow">Local Economic Development Advisory</div>
+    <h1>Catalysing <em>Growth</em><br>in African Economies</h1>
+    <p class="hero-desc">We partner with governments, municipalities, and private sector leaders to design and implement transformative economic strategies that create lasting prosperity.</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="scrollS('services')">Our Services</button>
+      <button class="btn-outline" onclick="scrollS('about')"><i class="ti ti-arrow-right" style="font-size:14px" aria-hidden="true"></i> Our Approach</button>
+    </div>
+    <div class="hero-stamp">
+      <div>
+        <div class="stamp-num">25+</div>
+        <div class="stamp-lbl">Years of Practice</div>
+      </div>
+      <div>
+        <div class="stamp-num">60+</div>
+        <div class="stamp-lbl">Municipalities Served</div>
+      </div>
+      <div>
+        <div class="stamp-num">R2B+</div>
+        <div class="stamp-lbl">Investment Facilitated</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img-main" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80&fit=crop" alt="Business professionals in a meeting" />
+    <div class="hero-img-overlay"></div>
+    <div class="hero-badge">
+      <p class="badge-text">Trusted Since</p>
+      <div class="badge-val">1999</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>Local Economic Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Investment Promotion</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Economic Policy</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Spatial Planning</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Enterprise Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Urban Regeneration</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Tourism Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>M&amp;E Frameworks</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Local Economic Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Investment Promotion</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Economic Policy</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Spatial Planning</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Enterprise Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Urban Regeneration</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Tourism Development</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>M&amp;E Frameworks</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-photo reveal">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&fit=crop" alt="Professionals in a boardroom" />
+      <div class="about-photo-caption">
+        <p>Strategic advisory — serving 9 provinces</p>
+      </div>
+    </div>
+    <div class="about-copy reveal">
+      <div class="sec-label">Who We Are</div>
+      <h2 class="sec-title">A legacy of <em>strategic</em> economic thinking</h2>
+      <p class="about-body" style="margin-top:1.5rem;">Shengele &amp; Company is a boutique advisory firm with deep expertise in local and regional economic development across Southern Africa. Our multidisciplinary team combines rigorous analytical capability with decades of on-the-ground implementation experience.</p>
+      <p class="about-body">We serve as trusted advisors to governments, development finance institutions, and forward-thinking private sector clients who seek to build inclusive, resilient economies from the ground up.</p>
+      <div class="pillars">
+        <div class="pillar"><span class="pillar-name">Evidence-Based Strategy</span><span class="pillar-arr">↗</span></div>
+        <div class="pillar"><span class="pillar-name">Implementation Excellence</span><span class="pillar-arr">↗</span></div>
+        <div class="pillar"><span class="pillar-name">Stakeholder Alignment</span><span class="pillar-arr">↗</span></div>
+        <div class="pillar"><span class="pillar-name">Long-term Partnership</span><span class="pillar-arr">↗</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services-bg" id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="sec-label-light">What We Do</div>
+      <div class="services-title-light">Our Practice Areas</div>
+    </div>
+    <button class="btn-outline" style="border-color:rgba(255,255,255,0.2);color:rgba(232,226,213,0.7);" onclick="sendPrompt('Tell me more about Shengele & Company\'s services')">All services →</button>
+  </div>
+  <div class="services-grid reveal">
+    <div class="svc-card"><div class="svc-num">01</div><div class="svc-name">LED Strategy &amp; Planning</div><div class="svc-desc">Comprehensive local economic development strategies grounded in rigorous baseline analysis, stakeholder engagement, and competitive positioning.</div><div class="svc-link">Learn more →</div></div>
+    <div class="svc-card"><div class="svc-num">02</div><div class="svc-name">Investment Promotion</div><div class="svc-desc">Designing investment promotion frameworks, preparing investment prospectuses, and facilitating deals between municipalities and the private sector.</div><div class="svc-link">Learn more →</div></div>
+    <div class="svc-card"><div class="svc-num">03</div><div class="svc-name">Enterprise &amp; SMME Development</div><div class="svc-desc">Building thriving small business ecosystems through targeted support programmes, incubation strategy, and market access facilitation.</div><div class="svc-link">Learn more →</div></div>
+    <div class="svc-card"><div class="svc-num">04</div><div class="svc-name">Economic Policy Advisory</div><div class="svc-desc">Policy analysis, development and advocacy for national and provincial government, including sector-specific economic development frameworks.</div><div class="svc-link">Learn more →</div></div>
+    <div class="svc-card"><div class="svc-num">05</div><div class="svc-name">Spatial &amp; Urban Development</div><div class="svc-desc">Integrated development planning, urban regeneration strategies, and spatial economic analysis to unlock land and precinct-level value.</div><div class="svc-link">Learn more →</div></div>
+    <div class="svc-card"><div class="svc-num">06</div><div class="svc-name">Monitoring &amp; Evaluation</div><div class="svc-desc">Designing robust M&amp;E systems, impact assessments, and performance frameworks that ensure accountability and continuous improvement.</div><div class="svc-link">Learn more →</div></div>
+  </div>
+</section>
+
+<!-- CONFERENCE / APPROACH SPLIT -->
+<section class="conf-section" id="approach">
+  <div class="conf-photo reveal">
+    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80&fit=crop" alt="Conference room strategy session" />
+  </div>
+  <div class="conf-copy reveal">
+    <div class="sec-label">Our Approach</div>
+    <h2 class="sec-title" style="margin-bottom:0.5rem;">How We<br><em>Deliver</em></h2>
+    <div class="process-steps">
+      <div class="pstep"><div class="pstep-num">01</div><div class="pstep-content"><div class="pstep-name">Diagnose</div><div class="pstep-desc">Rigorous economic baseline and stakeholder landscape assessment to understand the unique context of your economy.</div></div></div>
+      <div class="pstep"><div class="pstep-num">02</div><div class="pstep-content"><div class="pstep-name">Design</div><div class="pstep-desc">Co-creating strategies with clients and communities to ensure relevance, ownership, and alignment across all stakeholders.</div></div></div>
+      <div class="pstep"><div class="pstep-num">03</div><div class="pstep-content"><div class="pstep-name">Implement</div><div class="pstep-desc">Hands-on support throughout execution — from project management to capacity building and private sector facilitation.</div></div></div>
+      <div class="pstep"><div class="pstep-num">04</div><div class="pstep-content"><div class="pstep-name">Sustain</div><div class="pstep-desc">Embedding systems, skills, and relationships that outlast the engagement and generate compounding returns over time.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT STRIP -->
+<section class="impact-strip" id="impact">
+  <div class="impact-inner reveal">
+    <div class="impact-card"><div class="impact-num">60+</div><div class="impact-lbl">Municipalities Served</div></div>
+    <div class="impact-card"><div class="impact-num">25+</div><div class="impact-lbl">Years of Experience</div></div>
+    <div class="impact-card"><div class="impact-num">R2B+</div><div class="impact-lbl">Investment Facilitated</div></div>
+    <div class="impact-card"><div class="impact-num">9</div><div class="impact-lbl">Provinces Active</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testi-section">
+  <div class="testi-inner reveal">
+    <div class="testi-photo">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80&fit=crop" alt="Business professional" />
+    </div>
+    <div class="testi-copy">
+      <span class="quote-mark">"</span>
+      <p class="testi-text">Shengele &amp; Company brought a rare combination of analytical depth and practical wisdom. Their LED strategy gave our municipality a clear, credible roadmap that our communities and investors could both believe in.</p>
+      <div class="testi-attr">Director of Economic Development — Eastern Cape Municipality</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="sec-label" style="justify-content:center;margin-bottom:1rem;">Engage Us</div>
+  <h2>Ready to build a stronger,<br><em style="font-style:italic;color:#b08a40;">more prosperous</em> economy?</h2>
+  <p>Let's discuss how Shengele &amp; Company can partner with your organisation.</p>
+  <div class="cta-btns">
+    <button class="btn-gold" onclick="sendPrompt('I want to get in touch with Shengele & Company to discuss a project')">Begin the Conversation</button>
+    <button class="btn-outline" onclick="sendPrompt('Download the Shengele & Company capabilities deck')">Download Capabilities Deck</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-copy">© 2026 Shengele &amp; Company. All rights reserved.</div>
+  <div class="footer-links">
+    <a>Privacy</a>
+    <a>Terms</a>
+    <a>+27 (0)31 000 0000</a>
+    <a>info@shengele.co.za</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+function scrollS(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
+const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*70);obs.unobserve(e.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
