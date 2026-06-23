@@ -1,163 +1,350 @@
-<html>
-<head>
-    <title>Demo Sites</title>
-</head>
-<body>
-   <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FehRoh Tech | Demo Websites</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FehRoh Tech | Web Design Agency</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background:#0f172a;
-    color:white;
-    overflow-x:hidden;
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
 }
 
-/* Animated Background */
-.background{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-    overflow:hidden;
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
 }
 
-.circle{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.4;
-    animation:float 15s infinite ease-in-out;
+::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.05);
 }
 
-.circle:nth-child(1){
-    width:300px;
-    height:300px;
-    background:#3b82f6;
-    top:10%;
-    left:10%;
+::-webkit-scrollbar-thumb:hover {
+    background: #0ea5e9;
 }
 
-.circle:nth-child(2){
-    width:400px;
-    height:400px;
-    background:#8b5cf6;
-    bottom:10%;
-    right:10%;
-    animation-delay:3s;
+/* Firefox Scrollbars */
+* {
+    scrollbar-color: #38bdf8 rgba(255,255,255,0.05);
+    scrollbar-width: thin;
 }
 
-.circle:nth-child(3){
-    width:250px;
-    height:250px;
-    background:#06b6d4;
-    top:50%;
-    left:50%;
-    animation-delay:6s;
+body {
+    background: #0f172a;
+    color: white;
+    overflow-x: hidden;
 }
 
-@keyframes float{
-    0%,100%{
-        transform:translateY(0px);
-    }
-    50%{
-        transform:translateY(-40px);
-    }
+/* =========================
+   GLOWING BACKGROUND ORBS
+========================= */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:40px 20px;
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+    animation: float 15s infinite ease-in-out;
 }
 
-.hero{
-    min-height:60vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
+.circle:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    background: #3b82f6;
+    top: 10%;
+    left: 10%;
 }
 
-.hero h1{
-    font-size:4rem;
-    margin-bottom:20px;
+.circle:nth-child(2) {
+    width: 400px;
+    height: 400px;
+    background: #8b5cf6;
+    bottom: 10%;
+    right: 10%;
+    animation-delay: 3s;
 }
 
-.hero span{
-    color:#38bdf8;
+.circle:nth-child(3) {
+    width: 250px;
+    height: 250px;
+    background: #06b6d4;
+    top: 50%;
+    left: 50%;
+    animation-delay: 6s;
 }
 
-.hero p{
-    max-width:700px;
-    color:#cbd5e1;
-    line-height:1.7;
-    font-size:1.1rem;
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-40px); }
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
-    margin-top:50px;
+/* =========================
+   NAVBAR
+========================= */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    z-index: 1000;
 }
 
-.card{
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(15px);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:20px;
-    padding:30px;
-    transition:.3s;
+nav h2 {
+    color: #38bdf8;
 }
 
-.card:hover{
-    transform:translateY(-10px);
-    border-color:#38bdf8;
+nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
 }
 
-.card h3{
-    margin-bottom:15px;
+nav ul li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
 }
 
-.card p{
-    color:#cbd5e1;
-    margin-bottom:20px;
+nav ul li a:hover {
+    color: #38bdf8;
 }
 
-.btn{
-    display:inline-block;
-    text-decoration:none;
-    background:#38bdf8;
-    color:#0f172a;
-    font-weight:600;
-    padding:12px 24px;
-    border-radius:10px;
-    transition:.3s;
+/* =========================
+   HERO
+========================= */
+.hero {
+    padding-top: 120px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.btn:hover{
-    transform:scale(1.05);
+.hero h1 {
+    font-size: 3.5rem;
 }
 
-.footer{
-    text-align:center;
-    margin-top:80px;
-    color:#94a3b8;
+.hero span {
+    color: #38bdf8;
+}
+
+.hero p {
+    max-width: 700px;
+    margin-top: 15px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+.cta {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+.btn-outline {
+    border: 1px solid #38bdf8;
+    color: #38bdf8;
+}
+
+.btn-outline:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+}
+
+.section-title p {
+    color: #94a3b8;
+    margin-top: 10px;
+}
+
+/* =========================
+   GRID + CARDS
+========================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 25px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: #38bdf8;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.card a {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #38bdf8;
+    color: #0f172a;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+    gap: 32px;
+    margin-top: 20px;
+}
+
+.preview-frame {
+    width: 100%;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    background: #0f172a;
+    box-shadow: 0 8px 32px rgba(56, 189, 248, 0.08);
+    position: relative;
+}
+
+.preview-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: 133.33%;
+    height: 133.33%;
+}
+
+.preview-card {
+    padding: 28px;
+    background: rgba(255,255,255,0.06);
+}
+
+.preview-card h3 {
+    color: #38bdf8;
+    font-size: 1.35rem;
+    margin-top: 8px;
+}
+
+.preview-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 12px 0 16px;
+}
+
+.preview-card ul {
+    margin: 16px 0 20px;
+    padding-left: 20px;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.preview-card ul li {
+    margin-bottom: 8px;
+}
+
+.preview-card a {
+    display: inline-block;
+    padding: 11px 22px;
+    background: #38bdf8;
+    color: #0f172a;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: 0.25s;
+}
+
+.preview-card a:hover {
+    background: #0ea5e9;
+    transform: scale(1.04);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 60px;
 }
 </style>
 
@@ -165,110 +352,210 @@ body{
 
 <body>
 
+<!-- 🔵 GLOWING BACKGROUND (RESTORED) -->
 <div class="background">
     <div class="circle"></div>
     <div class="circle"></div>
     <div class="circle"></div>
 </div>
 
-<div class="container">
+<!-- NAV -->
+<nav>
+    <h2>FehRoh Tech</h2>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#preview">Preview</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-```
+<!-- HERO -->
 <section class="hero">
     <h1>FehRoh <span>Tech</span></h1>
-
     <p>
-        Professional website demos showcasing modern designs for
-        businesses, educational institutions, and service providers.
-        Explore the examples below to see what your future website
-        could look like.
+        We build modern, fast, and professional websites for businesses,
+        brands, and startups.
     </p>
+
+    <div class="cta">
+        <a href="#portfolio" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-outline">Get Quote</a>
+    </div>
 </section>
 
-<section class="grid">
-
-    <div class="card">
-        <h3>The Blitz Bar</h3>
-        <p>
-            Trendy bar and nightclub website with event listings, menu,
-            and reservation features.
-        </p>
-
-        <a href="/BlitzBar/blitz.html" class="btn">
-            View Demo
-        </a>
-    </div>
-    <div class="card">
-        <h3>Business Consulting Firm Demo 1</h3>
-        <p>
-            Trendy bar and nightclub website with event listings, menu,
-            and reservation features.
-        </p>
-
-        <a href="/consulting/shengele_website_light.html" class="btn">
-            View Demo
-        </a>
-    </div>
-    <div class="card">
-        <h3>Business Consulting Firm Demo 2</h3>
-        <p>
-            Professional consulting firm website with service offerings,
-            team bios, and contact information.
-        </p>
-
-        <a href="/consulting/shengele_company_website.html" class="btn">
-            View Demo
-        </a>
+<!-- DEMO PREVIEW -->
+<section class="container" id="preview">
+    <div class="section-title">
+        <h2>Demo Previews</h2>
+        <p>Explore highlighted layouts and quick business concepts before you dive in.</p>
     </div>
 
-    <div class="card">
-        <h3>🚔 FirstDrive Academy</h3>
-        <p>
-            Professional driving school website with course information,
-            booking and service details.
-        </p>
+    <div class="preview-grid">
+        <div class="card preview-card">
+            <div class="preview-frame">
+                <iframe src="./GreenLeaf/Dispensary.html" title="GreenLeaf Dispensary preview"></iframe>
+            </div>
+            <h3>GreenLeaf Dispensary</h3>
+            <p>Retail menu, product styling, and modern wellness branding.</p>
+            <ul>
+                <li>Clean product categories</li>
+                <li>Wellness-focused styling</li>
+                <li>Fast preview demo</li>
+            </ul>
+            <a href="/GreenLeaf/Dispensary.html">View Demo</a>
+        </div>
 
-        <a href="/FisrtDriveAcademy/FirstDrive.html" class="btn">
-            View Demo
-        </a>
+        <div class="card preview-card">
+            <div class="preview-frame">
+                <iframe src="./Oasis/Oasis.html" title="Oasis Water preview"></iframe>
+            </div>
+            <h3>Oasis Water</h3>
+            <p>Refreshing product showcase and elegant brand presence.</p>
+            <ul>
+                <li>Strong landing page flow</li>
+                <li>Clear product callouts</li>
+                <li>Great for health brands</li>
+            </ul>
+            <a href="/Oasis/Oasis.html">View Demo</a>
+        </div>
+
+        <div class="card preview-card">
+            <div class="preview-frame">
+                <iframe src="./consulting/shengele_website_light.html" title="Consulting Light preview"></iframe>
+            </div>
+            <h3>Consulting Light</h3>
+            <p>Minimal corporate design for consulting or agency brands.</p>
+            <ul>
+                <li>Typographic hierarchy</li>
+                <li>Refined service presentation</li>
+                <li>Professional layout</li>
+            </ul>
+            <a href="/consulting/shengele_website_light.html">View Demo</a>
+        </div>
     </div>
-
-    <div class="card">
-        <h3>🏗️ GreenLeaf Dispensary</h3>
-        <p>
-            Modern cannabis dispensary website with product information
-            and online ordering capabilities.
-        </p>
-
-        <a href="/GreenLeaf/Dispensary.html" class="btn">
-            View Demo
-        </a>
-    </div>
-
-    <div class="card">
-        <h3>Oasis Water Glenwood Demo</h3>
-        <p>
-            Clean and refreshing water company website showcasing products
-            and sustainability efforts.
-        </p>
-
-        <a href="/Oasis/Oasis.html" class="btn">
-            View Demo
-        </a>
-    </div>
-
 </section>
 
-<div class="footer">
+<!-- SERVICES -->
+<section class="container" id="services">
+    <div class="section-title">
+        <h2>Services</h2>
+        <p>Everything your business needs online</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Website Design</h3>
+            <p>Modern responsive websites.</p>
+        </div>
+
+        <div class="card">
+            <h3>E-Commerce</h3>
+            <p>Online stores & checkout systems.</p>
+        </div>
+
+        <div class="card">
+            <h3>Branding</h3>
+            <p>Logos, posters, and identity design.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="container" id="portfolio">
+    <div class="section-title">
+        <h2>Portfolio</h2>
+        <p>Our demo projects</p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>The Blitz Bar</h3>
+            <p>Nightlife website with events & bookings.</p>
+            <a href="/BlitzBar/blitz.html">View Demo</a>
+        </div>
+
+        <div class="card">
+            <h3>Consulting Firm</h3>
+            <p>Corporate business website.</p>
+            <a href="/consulting/shengele_company_website.html">View Demo</a>
+        </div>
+
+        <div class="card">
+            <h3>Consulting Firm Light</h3>
+            <p>Alternate consulting layout with clean typography.</p>
+            <a href="/consulting/shengele_website_light.html">View Demo</a>
+        </div>
+
+        <div class="card">
+            <h3>FirstDrive Academy</h3>
+            <p>Driving school website.</p>
+            <a href="/FisrtDriveAcademy/FirstDrive.html">View Demo</a>
+        </div>
+
+        <div class="card">
+            <h3>GreenLeaf Dispensary</h3>
+            <p>Dispensary website with product menus and brand styling.</p>
+            <a href="/GreenLeaf/Dispensary.html">View Demo</a>
+        </div>
+
+        <div class="card">
+            <h3>Oasis Water</h3>
+            <p>Clean product business site.</p>
+            <a href="/Oasis/Oasis.html">View Demo</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="container" id="pricing">
+    <div class="section-title">
+        <h2>Pricing</h2>
+        <p>Simple packages for every business</p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Starter</h3>
+            <p>R1,500 — 1–3 pages, mobile friendly.</p>
+        </div>
+
+        <div class="card">
+            <h3>Business</h3>
+            <p>R3,500 — up to 6 pages + SEO.</p>
+        </div>
+
+        <div class="card">
+            <h3>Premium</h3>
+            <p>R6,500+ — full custom website.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="container" id="contact">
+    <div class="section-title">
+        <h2>Contact</h2>
+        <p>Let’s build something great</p>
+    </div>
+
+    <div class="card" style="text-align:center;">
+        <h3>FehRoh Tech</h3>
+        <p>WhatsApp: +27 XXX XXX XXXX</p>
+        <p>Email: contact@fehrohtech.com</p>
+        <a href="#" class="btn btn-primary">Get In Touch</a>
+    </div>
+</section>
+
+<footer>
     © 2026 FehRoh Tech
-</div>
-```
-
-</div>
+</footer>
 
 </body>
-</html>
-
-
-</body> 
 </html>
